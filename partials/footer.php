@@ -67,7 +67,7 @@
             <small>Copyright &copy; Egator</small>
         </div>
     </footer>
-    <script src="../js/main.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>

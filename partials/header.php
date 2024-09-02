@@ -29,8 +29,8 @@
                 <li><a href="<?= ROOT_URL ?>about.php">About</a></li>
                 <li><a href="<?= ROOT_URL ?>services.php">Services</a></li>
                 <li><a href="<?= ROOT_URL ?>contact.php">Contact</a></li>
-                <!-- <li><a href="signin.html">Signin</a></li> -->
-                <li class="nav__profile">
+                <li><a href="<?= ROOT_URL ?>signin.php">Signin</a></li>
+                <!-- <li class="nav__profile">
                     <div class="avatar">
                         <img src="./images/avatar1.jpg" alt="">
                     </div>
@@ -38,7 +38,7 @@
                         <li><a href="<?= ROOT_URL ?>admin/index.php">Dashboard</a></li>
                         <li><a href="<?= ROOT_URL ?>logout.php">Logout</a></li>
                     </ul>
-                </li>
+                </li> -->
             </ul>
 
             <button id="open__nav-btn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="menu" width="24"
