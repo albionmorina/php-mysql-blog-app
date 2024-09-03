@@ -50,6 +50,7 @@
                             <h5>Manage Post</h5>
                         </a>
                     </li>
+                    <?php if(isset($_SESSION['user_is_admin'])): ?>
                     <li>
                         <a href="add-user.php">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" viewBox="0 0 24 24"
@@ -122,6 +123,7 @@
                             <h5>Manage Categories</h5>
                         </a>
                     </li>
+                    <?php endif ?>
                 </ul>
             </aside>
             <main>

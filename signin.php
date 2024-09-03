@@ -1,3 +1,12 @@
+<?php
+    require 'admin/config/database.php';
+
+    $username_email = $_SESSION['signin-data']['username_email'] ?? null;
+    $password = $_SESSION['signin-data']['password'] ?? null;
+
+    unset($_SESSION['signin-data']);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Website</title>
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="<?= ROOT_URL ?>css/style.css">
     <!-- ICONSCOUT CDN -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
     <!--Google font montserrat-->
@@ -17,57 +26,33 @@
 </head>
 
 <body>
-    <!-- <nav>
-        <div class="container nav__container">
-            <a href="index.html" class="nav__logo">Egator</a>
-            <ul class="nav__items">
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="services.html">Services</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <!-- <li><a href="signin.html">Signin</a></li>
-                <li class="nav__profile">
-                    <div class="avatar">
-                        <img src="./images/avatar1.jpg" alt="">
-                    </div>
-                    <ul>
-                        <li><a href="dashboard.html">Dashboard</a></li>
-                        <li><a href="logout.html">Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
-
-            <button id="open__nav-btn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="menu" width="24"
-                    height="24" style="fill: currentColor;">
-                    <g>
-                        <g>
-                            <rect width="24" height="24" opacity="0" transform="rotate(180 12 12)"></rect>
-                            <rect width="18" height="2" x="3" y="11" rx=".95" ry=".95"></rect>
-                            <rect width="18" height="2" x="3" y="16" rx=".95" ry=".95"></rect>
-                            <rect width="18" height="2" x="3" y="6" rx=".95" ry=".95"></rect>
-                        </g>
-                    </g>
-                </svg></button>
-            <button id="close__nav-btn"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" id="close">
-                    <path
-                        d="M38 12.83 35.17 10 24 21.17 12.83 10 10 12.83 21.17 24 10 35.17 12.83 38 24 26.83 35.17 38 38 35.17 26.83 24z">
-                    </path>
-                    <path fill="none" d="M0 0h48v48H0z"></path>
-                </svg></button>
-        </div>
-    </nav> --> 
-    <!--=====================================================END OF NAV=========================================-->
 
 <section class="form__section">
     <div class="container form__section-container">
         <h2 style="color: black;">Sign In</h2>
-        <div class="aler__message success">
-            <p>This is a success message</p>
-        </div>
-        <form action="">
-            <input type="text" placeholder="Username or Email">
-            <input type="password" placeholder="Password">
-            <button class="btn" type="submit">Sign In</button>
+        <?php if(isset($_SESSION['signup-success'])) :  ?>
+            <div class="alert__message success">
+                <p>
+                    <?=
+                     $_SESSION['signup-success'];
+                    unset($_SESSION['signup-success']) 
+                    ?>
+                </p>
+            </div>
+        <?php elseif (isset($_SESSION['signin'])) : ?>    
+            <div class="alert__message error">
+                <p>
+                    <?=
+                     $_SESSION['signin'];
+                    unset($_SESSION['signin']);
+                    ?>
+                </p>
+            </div>
+        <?php endif ?>    
+        <form action="<?= ROOT_URL ?>signin-logic.php" method="POST">
+            <input type="text" name="username_email" value="<?= $username_email ?>" placeholder="Username or Email">
+            <input type="password" name="password" value="<?= $password ?>" placeholder="Password">
+            <button class="btn" name="submit" type="submit">Sign In</button>
             <small>Don't have an account? <a href="signup.php">Sign Up</a></small>
         </form>
     </div>
