@@ -1,8 +1,44 @@
 <?php 
-    include 'partials/header.php'
+    include 'partials/header.php';
+
+    // fetch users from database but not current user 
+    $current_admin_id = $_SESSION['user-id'];
+
+    $query = "SELECT * FROM users WHERE NOT id=$current_admin_id";
+    $users = mysqli_query($connection, $query);
 ?>
 
     <section class="dashboard">
+
+    <?php if(isset($_SESSION['add-user-success'])) : // shows if add user was successful ?>
+            <div class="alert__message success container">
+                <p>
+                    <?=
+                     $_SESSION['add-user-success'];
+                    unset($_SESSION['add-user-success']); 
+                    ?>
+                </p>
+            </div>
+    <?php elseif(isset($_SESSION['edit-user-success'])) : // shows if edit user was successful ?>
+            <div class="alert__message success container">
+                <p>
+                    <?=
+                     $_SESSION['edit-user-success'];
+                    unset($_SESSION['edit-user-success']); 
+                    ?>
+                </p>
+            </div>
+    <?php elseif(isset($_SESSION['edit-user'])) : // shows if edit user was NOT successful ?>
+            <div class="alert__message error container">
+                <p>
+                    <?=
+                     $_SESSION['edit-user'];
+                    unset($_SESSION['edit-user']); 
+                    ?>
+                </p>
+            </div>
+    <?php endif ?>
+
         <div class="container dashboard__container">
             <button id="show__sidebar-btn" class="sidebar__toggle">
                 <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="30px" height="30px" viewBox="0 0 101 101" id="right">
@@ -16,6 +52,7 @@
                     <path d="M57.1 33.1c-.9-.9-2.5-.9-3.4 0L38.2 48.6c-.5.5-.7 1.1-.7 1.7s.3 1.2.7 1.7l15.5 15.5c.5.5 1.1.7 1.7.7s1.2-.2 1.7-.7c.9-.9.9-2.5 0-3.4L43.3 50.3l13.8-13.8c1-.9 1-2.4 0-3.4z"></path>
                 </svg>
             </button>
+
             <aside>
                 <ul>
                     <li>
@@ -139,27 +176,15 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php while($user = mysqli_fetch_assoc($users)) : ?>
                         <tr>
-                            <td>Ernest Achiever</td>
-                            <td>achiever</td>
-                            <td><a href="edit-user.php" class="btn sm">Edit</a></td>
-                            <td><a href="delete-category.php" class="btn sm danger">Delete</a></td>
-                            <td>Yes</td>
+                            <td><?= "{$user['firstname']} {$user['lastname']}" ?></td>
+                            <td><?= $user['username'] ?></td>
+                            <td><a href="<?= ROOT_URL ?>admin/edit-user.php?id=<?= $user['id'] ?>" class="btn sm">Edit</a></td>
+                            <td><a href="<?= ROOT_URL ?>admin/delete-user.php?id=<?= $user['id'] ?>" class="btn sm danger">Delete</a></td>
+                            <td><?= $user['is_admin'] ? 'Yes' : 'No' ?></td>
                         </tr>
-                        <tr>
-                            <td>Daniel Vinyo</td>
-                            <td>daniel</td>
-                            <td><a href="edit-user.php" class="btn sm">Edit</a></td>
-                            <td><a href="delete-category.php" class="btn sm danger">Delete</a></td>
-                            <td>Yes</td>
-                        </tr>
-                        <tr>
-                            <td>Jane Doe</td>
-                            <td>jane</td>
-                            <td><a href="edit-user.php" class="btn sm">Edit</a></td>
-                            <td><a href="delete-category.php" class="btn sm danger">Delete</a></td>
-                            <td>No</td>
-                        </tr>
+                        <?php endwhile ?>
                     </tbody>
                 </table>
             </main>
